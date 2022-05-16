@@ -1,6 +1,6 @@
 [package]
 name = "ldtk_easy"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 description = "An easy to use LDTK library."
 license = "MIT OR Apache-2.0"
@@ -8,4 +8,4 @@ license = "MIT OR Apache-2.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-ldtk_deser_json = "0.1.3"
+ldtk_deser_json = "0.1.2"
