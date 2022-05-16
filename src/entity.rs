@@ -31,6 +31,14 @@ impl Entity {
         self.inner.height
     }
 
+    pub fn grid_coords(&self) -> (i32, i32) {
+        (self.inner.grid_coords[0], self.inner.grid_coords[1])
+    }
+
+    pub fn px_coords(&self) -> (i32, i32) {
+        (self.inner.px[0], self.inner.px[1])
+    }
+
     pub fn fields(&self) -> HashMap<String, EntityField> {
         self.inner
             .field_instances
