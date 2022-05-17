@@ -1,3 +1,5 @@
+use ldtk_deser_json::project::instances::tile_instance::TileInstance;
+
 use crate::entity::Entity;
 
 #[derive(Clone)]
@@ -16,4 +18,39 @@ impl Layer {
             .map(|instance| Entity::new(instance.clone()))
             .collect()
     }
+
+    pub fn grid_size(&self) -> i32 {
+        self.inner.grid_size
+    }
+
+    pub fn int_grid(&self) -> Vec<i32> {
+        self.inner.int_grid_csv.clone()
+    }
+
+    pub fn width(&self) -> i32 {
+        self.inner.c_wid
+    }
+
+    pub fn height(&self) -> i32 {
+        self.inner.c_hei
+    }
+
+    pub fn autotiles(&self) -> Vec<Autotile> {
+        self.inner
+            .auto_layer_tiles
+            .clone()
+            .into_iter()
+            .map(|instance| Autotile {
+                source: (instance.src[0], instance.src[1]),
+                pixel_position: (instance.px[0], instance.src[1]),
+                flip: instance.f,
+            })
+            .collect()
+    }
+}
+
+pub struct Autotile {
+    pub source: (i32, i32),
+    pub pixel_position: (i32, i32),
+    pub flip: i32,
 }
