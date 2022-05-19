@@ -35,11 +35,11 @@ impl Entity {
         (self.inner.grid_coords[0], self.inner.grid_coords[1])
     }
 
-    pub fn px_coords(&self) -> (i32, i32) {
+    pub fn pixel_coordinates(&self) -> (i32, i32) {
         (self.inner.px[0], self.inner.px[1])
     }
 
-    pub fn fields(&self) -> HashMap<String, EntityField> {
+    pub fn fields(&self) -> HashMap<String, Field> {
         self.inner
             .field_instances
             .iter()
@@ -49,34 +49,47 @@ impl Entity {
             })
             .collect()
     }
+
+    pub fn field<T: Into<String>>(&self, field_name: T) -> Option<Field> {
+        let field_name: String = field_name.into();
+        self.inner
+            .field_instances
+            .iter()
+            .find(|field| field.identifier == field_name)
+            .map(|field| parse_field(&field.value))
+    }
+
+    pub fn tags(&self) -> Vec<String> {
+        self.inner.tags.clone()
+    }
 }
 
-fn parse_field(value: &ldtk_deser_json::serde_json::Value) -> EntityField {
+pub fn parse_field(value: &ldtk_deser_json::serde_json::Value) -> Field {
     if value.is_null() {
-        return EntityField::Null;
+        return Field::Null;
     }
 
     if value.is_boolean() {
         if let Some(value) = value.as_bool() {
-            return EntityField::Bool { value };
+            return Field::Bool { value };
         }
     }
 
     if value.is_f64() {
         if let Some(value) = value.as_f64() {
-            return EntityField::Float { value };
+            return Field::Float { value };
         }
     }
 
     if value.is_i64() {
         if let Some(value) = value.as_i64() {
-            return EntityField::Int { value };
+            return Field::Int { value };
         }
     }
 
     if value.is_string() {
         if let Some(value) = value.as_str() {
-            return EntityField::String {
+            return Field::String {
                 value: value.to_string(),
             };
         }
@@ -92,7 +105,7 @@ fn parse_field(value: &ldtk_deser_json::serde_json::Value) -> EntityField {
                 }
             }
 
-            return EntityField::Map { value: map };
+            return Field::Map { value: map };
         }
     }
 
@@ -104,21 +117,21 @@ fn parse_field(value: &ldtk_deser_json::serde_json::Value) -> EntityField {
                 value.push(parse_field(array_value));
             }
 
-            return EntityField::Array { value };
+            return Field::Array { value };
         }
     }
 
     // Failed to parse, return null
-    EntityField::Null
+    Field::Null
 }
 
 #[derive(Clone, PartialEq)]
-pub enum EntityField {
+pub enum Field {
     Null,
-    Array { value: Vec<EntityField> },
+    Array { value: Vec<Field> },
     Float { value: f64 },
     Int { value: i64 },
     Bool { value: bool },
     String { value: String },
-    Map { value: HashMap<String, EntityField> },
+    Map { value: HashMap<String, Field> },
 }

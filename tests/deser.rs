@@ -1,4 +1,4 @@
-use ldtk_easy::{entity::EntityField, project::Project};
+use ldtk_easy::{entity::Field, project::Project};
 
 #[test]
 fn test_deser() {
@@ -23,7 +23,7 @@ fn test_deser() {
     assert_eq!(true, float_array.is_some());
     let float_array = float_array.unwrap();
     match float_array {
-        EntityField::Array { value } => {
+        Field::Array { value } => {
             assert_eq!(0, value.len());
         }
         _ => panic!("Expected a float array"),
@@ -33,7 +33,7 @@ fn test_deser() {
     assert_eq!(true, color.is_some());
     let color = color.unwrap();
     match color {
-        EntityField::String { value } => {
+        Field::String { value } => {
             assert_eq!("#000000", value);
         }
         _ => panic!("Expected a float array"),

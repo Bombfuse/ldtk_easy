@@ -19,7 +19,7 @@ impl Layer {
             .collect()
     }
 
-    pub fn grid_size(&self) -> i32 {
+    pub fn tile_size(&self) -> i32 {
         self.inner.grid_size
     }
 
@@ -33,6 +33,13 @@ impl Layer {
 
     pub fn height(&self) -> i32 {
         self.inner.c_hei
+    }
+
+    pub fn pixel_size(&self) -> (usize, usize) {
+        (
+            (self.inner.c_wid * self.inner.grid_size) as usize,
+            (self.inner.c_hei * self.inner.grid_size) as usize,
+        )
     }
 
     pub fn autotiles(&self) -> Vec<Autotile> {

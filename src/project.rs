@@ -11,6 +11,14 @@ impl Project {
         }
     }
 
+    pub fn levels(&self) -> Vec<Level> {
+        self.inner
+            .levels
+            .iter()
+            .map(|level| Level::new(level.clone()))
+            .collect()
+    }
+
     pub fn get_level<T: Into<String>>(&self, level_name: T) -> Option<Level> {
         let level_name: String = level_name.into();
 
