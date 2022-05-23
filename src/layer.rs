@@ -35,6 +35,10 @@ impl Layer {
         self.inner.c_hei
     }
 
+    pub fn size(&self) -> (usize, usize) {
+        (self.width() as usize, self.height() as usize)
+    }
+
     pub fn pixel_size(&self) -> (usize, usize) {
         (
             (self.inner.c_wid * self.inner.grid_size) as usize,
