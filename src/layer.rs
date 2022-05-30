@@ -19,6 +19,10 @@ impl Layer {
             .collect()
     }
 
+    pub fn relative_tileset_path(&self) -> Option<String> {
+        self.inner.tileset_rel_path.clone()
+    }
+
     pub fn tile_size(&self) -> i32 {
         self.inner.grid_size
     }
