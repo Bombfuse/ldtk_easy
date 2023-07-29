@@ -53,7 +53,7 @@ impl Layer {
             .into_iter()
             .map(|instance| Autotile {
                 source: (instance.src[0], instance.src[1]),
-                pixel_position: (instance.px[0], instance.src[1]),
+                pixel_position: (instance.px[0], instance.px[1]),
                 flip: instance.f,
             })
             .collect()
